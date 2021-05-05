@@ -1,5 +1,5 @@
 name: create_pr
-on: [workflow_dispatch]
+on: [push]
 jobs:
   createPullRequest:
     runs-on: ubuntu-latest
@@ -17,6 +17,7 @@ jobs:
           commit-message: Update report
           committer: GitHub <noreply@github.com>
           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+          branch: example-patches
           title: '[Example] Update report'
           body: |
             Example PR
