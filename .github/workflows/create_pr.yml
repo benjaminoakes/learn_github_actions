@@ -1,3 +1,5 @@
+name: create_pr
+on: [workflow_dispatch]
 jobs:
   createPullRequest:
     runs-on: ubuntu-latest
