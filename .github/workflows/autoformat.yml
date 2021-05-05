@@ -22,7 +22,7 @@ jobs:
         uses: peter-evans/create-pull-request@v3
         with:
           commit-message: autoformat fixes
-          title: Fixes by autoformat action
+          title: autoformat ${{ github.head_ref }}
           body: This is an auto-generated PR with fixes for \#${{github.event.pull_request.number}} by autoformat.
           labels: autoformat
           branch: ${{ steps.vars.outputs.branch-name }}
