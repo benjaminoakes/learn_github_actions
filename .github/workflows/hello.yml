@@ -4,5 +4,5 @@ jobs:
   say_hello:
     runs-on: ubuntu-latest
     steps:
-      - run: printf "hello, world!\n"
-      - run: printf "GITHUB_REF: $GITHUB_REF\n"
+      - run: echo "hello, world!"
+      - run: echo "$GITHUB_REF"
