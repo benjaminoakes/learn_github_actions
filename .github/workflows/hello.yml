@@ -5,3 +5,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: printf "hello, world!\n"
+      - run: printf "GITHUB_REF: $GITHUB_REF\n"
