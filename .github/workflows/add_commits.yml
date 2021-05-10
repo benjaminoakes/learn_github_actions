@@ -13,7 +13,7 @@ jobs:
         with:
           ref: ${{ github.ref }}
       - name: Inspect Revert
-        run: git cherry -v master | sed 's/+ //' | sed 's/ .*//g' | sed 's/^/git revert --no-edit /'
+        run: git cherry -v master | sed 's/+ //' | sed 's/ .*//g' | sed 's/^/git revert --no-edit /' | tac
       - name: Revert
         run: git cherry -v master | sed 's/+ //' | sed 's/ .*//g' | sed 's/^/git revert --no-edit /' | tac | sh
       - name: Set vars
