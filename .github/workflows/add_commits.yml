@@ -17,7 +17,11 @@ jobs:
           # https://stackoverflow.com/questions/3878624/how-do-i-programmatically-determine-if-there-are-uncommitted-changes
           echo ::set-output name=files-changed-count::$(git status --porcelain=v1 2>/dev/null | wc -l)
       - name: Inspect vars
-        run: echo files-changed-count=${{ steps.vars.outputs.files-changed-count }}
+        run: |
+          echo github.head_ref=${{ github.head_ref }}
+          echo github.event.pull_request.number=${{github.event.pull_request.number}}
+          echo branch-name=${{ steps.vars.outputs.branch-name }}
+          echo files-changed-count=${{ steps.vars.outputs.files-changed-count }}
       - name: Create Pull Request
         if: steps.vars.outputs.files-changed-count > 0
         uses: peter-evans/create-pull-request@v3
