@@ -1,0 +1,34 @@
+name: add_commits
+on: [workflow_dispatch]
+jobs:
+  add_commits:
+    # Check if the PR is not raised by this workflow and is not from a fork
+    if: startsWith(github.head_ref, 'autoformat') == false && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+      - name: Sort
+        id: sort
+        run: sort abc.txt > abc.txt.sorted; mv abc.txt.sorted abc.txt
+      - name: Set vars
+        id: vars
+        run: |
+          echo ::set-output name=branch-name::"autoformat/${{ github.head_ref }}"
+          # https://stackoverflow.com/questions/3878624/how-do-i-programmatically-determine-if-there-are-uncommitted-changes
+          echo ::set-output name=files-changed-count::$(git status --porcelain=v1 2>/dev/null | wc -l)
+      - name: Inspect vars
+        run: echo files-changed-count=${{ steps.vars.outputs.files-changed-count }}
+      - name: Create Pull Request
+        if: steps.vars.outputs.files-changed-count > 0
+        uses: peter-evans/create-pull-request@v3
+        with:
+          commit-message: autoformat fixes
+          title: autoformat ${{ github.head_ref }}
+          body: This is an auto-generated PR with fixes for \#${{github.event.pull_request.number}} by autoformat.
+          labels: autoformat
+          branch: ${{ steps.vars.outputs.branch-name }}
+      - name: Fail if files changed
+        if: steps.vars.outputs.files-changed-count > 0
+        run: exit 1
