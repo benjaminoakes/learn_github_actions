@@ -10,8 +10,11 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
       - name: Sort
-        id: sort
         run: sort abc.txt > abc.txt.sorted; mv abc.txt.sorted abc.txt
+      - name: Fix spelling
+        run: |
+          pip3 install codespell
+          codespell -w
       - name: Set vars
         id: vars
         run: |
