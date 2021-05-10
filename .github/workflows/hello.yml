@@ -1,8 +1,13 @@
 name: hello
-on: [workflow_dispatch]
+on:
+  workflow_dispatch:
+    inputs:
+      name:
+        description: 'Person to greet'
+        required: true
 jobs:
   say_hello:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "hello, world!"
-      - run: echo "$GITHUB_REF"
+      - run: echo "Hello ${{ github.event.inputs.name }}!"
+      - run: echo "GITHUB_REF: $GITHUB_REF"
