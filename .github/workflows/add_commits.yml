@@ -4,7 +4,7 @@ on:
     inputs:
       pr_number:
         description: 'PR number'
-        required: false
+        required: true
 jobs:
   add_commits:
     runs-on: ubuntu-latest
