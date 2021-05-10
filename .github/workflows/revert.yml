@@ -12,6 +12,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           ref: ${{ github.ref }}
+          fetch-depth: 0
       - name: Inspect Revert
         run: git cherry -v refs/heads/main | sed 's/+ //' | sed 's/ .*//g' | sed 's/^/git revert --no-edit /' | tac
       - name: Revert
