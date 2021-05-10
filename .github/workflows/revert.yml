@@ -1,4 +1,4 @@
-name: add_commits
+name: revert
 on:
   workflow_dispatch:
     inputs:
@@ -6,7 +6,7 @@ on:
         description: 'PR Number'
         required: true
 jobs:
-  add_commits:
+  revert:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
