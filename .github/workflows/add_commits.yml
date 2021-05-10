@@ -6,19 +6,19 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          ref: ${{ github.head_ref }}
+          ref: ${{ github.ref }}
       - name: Sort
         id: sort
         run: sort abc.txt > abc.txt.sorted; mv abc.txt.sorted abc.txt
       - name: Set vars
         id: vars
         run: |
-          echo ::set-output name=branch-name::"autoformat/${{ github.head_ref }}"
+          echo ::set-output name=branch-name::"autoformat/${{ github.ref }}"
           # https://stackoverflow.com/questions/3878624/how-do-i-programmatically-determine-if-there-are-uncommitted-changes
           echo ::set-output name=files-changed-count::$(git status --porcelain=v1 2>/dev/null | wc -l)
       - name: Inspect vars
         run: |
-          echo github.head_ref=${{ github.head_ref }}
+          echo github.head_ref=${{ github.ref }}
           echo github.event.pull_request.number=${{github.event.pull_request.number}}
           echo branch-name=${{ steps.vars.outputs.branch-name }}
           echo files-changed-count=${{ steps.vars.outputs.files-changed-count }}
@@ -27,7 +27,7 @@ jobs:
         uses: peter-evans/create-pull-request@v3
         with:
           commit-message: autoformat fixes
-          title: autoformat ${{ github.head_ref }}
+          title: autoformat ${{ github.ref }}
           body: This is an auto-generated PR with fixes for \#${{github.event.pull_request.number}} by autoformat.
           labels: autoformat
           branch: ${{ steps.vars.outputs.branch-name }}
