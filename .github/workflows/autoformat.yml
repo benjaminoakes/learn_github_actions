@@ -20,12 +20,12 @@ jobs:
       - name: Sort
         id: sort
         run: sort abc.txt > abc.txt.sorted; mv abc.txt.sorted abc.txt
-      - name: Set autoformat branch name
+      - name: Set vars
         id: vars
-        run: echo ::set-output name=branch-name::"autoformat/${{ github.head_ref }}"
-      # https://stackoverflow.com/questions/3878624/how-do-i-programmatically-determine-if-there-are-uncommitted-changes
-      - name: Files changed count
-        run: echo ::set-output name=files-changed-count::88
+        run: |
+          echo ::set-output name=branch-name::"autoformat/${{ github.head_ref }}"
+          # https://stackoverflow.com/questions/3878624/how-do-i-programmatically-determine-if-there-are-uncommitted-changes
+          echo ::set-output name=files-changed-count::88
       - name: Echo files changed count
         run: echo Files changed count was ${{ steps.vars.outputs.files-changed-count }}
       - name: Create Pull Request
