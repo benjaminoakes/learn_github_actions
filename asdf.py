@@ -1,1 +1,1 @@
-exmaple = 1
+example = 1
