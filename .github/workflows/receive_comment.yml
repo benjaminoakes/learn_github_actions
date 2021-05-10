@@ -1,0 +1,12 @@
+name: Receive Comment
+on:
+  issue_comment:
+    types: [created]
+jobs:
+  receive_comment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Say Hello
+        run: |
+          echo Hello
+          date
