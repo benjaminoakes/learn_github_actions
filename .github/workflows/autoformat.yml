@@ -37,6 +37,9 @@ jobs:
           body: This is an auto-generated PR with fixes for \#${{github.event.pull_request.number}} by autoformat.
           labels: autoformat
           branch: ${{ steps.vars.outputs.branch-name }}
+      - name: Fail if files changed
+        if: steps.vars.outputs.files-changed-count > 0
+        run: exit 1
       - name: Fail if autoformat made changes
         if: steps.autoformat.outputs.exit-code == 2
         run: exit 1
