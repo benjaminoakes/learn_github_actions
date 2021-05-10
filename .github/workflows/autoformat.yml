@@ -21,7 +21,7 @@ jobs:
       - name: Inspect vars
         run: echo files-changed-count: ${{ steps.vars.outputs.files-changed-count }}
       - name: Create Pull Request
-        if: steps.autoformat.outputs.exit-code == 2
+        if: steps.vars.outputs.files-changed-count > 0
         uses: peter-evans/create-pull-request@v3
         with:
           commit-message: autoformat fixes
