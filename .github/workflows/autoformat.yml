@@ -26,8 +26,8 @@ jobs:
           echo ::set-output name=branch-name::"autoformat/${{ github.head_ref }}"
           # https://stackoverflow.com/questions/3878624/how-do-i-programmatically-determine-if-there-are-uncommitted-changes
           echo ::set-output name=files-changed-count::$(git status --porcelain=v1 2>/dev/null | wc -l)
-      - name: Echo files changed count
-        run: echo Files changed count was ${{ steps.vars.outputs.files-changed-count }}
+      - name: Inspect vars
+        run: echo files-changed-count: ${{ steps.vars.outputs.files-changed-count }}
       - name: Create Pull Request
         if: steps.autoformat.outputs.exit-code == 2
         uses: peter-evans/create-pull-request@v3
