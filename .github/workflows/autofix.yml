@@ -10,11 +10,14 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
       - name: Sort
-        run: sort abc.txt > abc.txt.sorted; mv abc.txt.sorted abc.txt
+        run: |
+          sort abc.txt > abc.txt.sorted; mv abc.txt.sorted abc.txt
+          git commit -am "Sort abc.txt"
       - name: Fix spelling
         run: |
           pip3 install codespell
           codespell --write-changes --ignore-words-list xdescribe
+          git commit -am "$ codespell --write-changes --ignore-words-list xdescribe"
       - name: Set vars
         id: vars
         run: |
@@ -27,8 +30,7 @@ jobs:
         if: steps.vars.outputs.files-changed-count > 0
         uses: peter-evans/create-pull-request@v3
         with:
-          commit-message: autofixes
-          title: autofix ${{ github.head_ref }}
+          title: Autofix ${{ github.head_ref }}
           body: This is an auto-generated PR with fixes for \#${{github.event.pull_request.number}} by autofix.
           labels: autofix
           branch: ${{ steps.vars.outputs.branch-name }}
