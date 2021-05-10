@@ -17,6 +17,9 @@ jobs:
       - name: Report date
         id: report
         run: date > report.txt
+      - name: Sort
+        id: sort
+        run: sort abc.txt > abc.txt.sorted; mv abc.txt.sorted abc.txt
       - name: Set autoformat branch name
         id: vars
         run: echo ::set-output name=branch-name::"autoformat/${{ github.head_ref }}"
