@@ -1,4 +1,4 @@
-name: revert
+name: Revert PR
 on:
   workflow_dispatch:
     inputs:
@@ -23,7 +23,7 @@ jobs:
       - name: Set vars
         id: vars
         run: |
-          echo ::set-output name=branch-name::"revert/${{ github.ref }}"
+          echo ::set-output name=branch-name::"autorevert/${{ github.ref }}"
       - name: Inspect vars
         run: |
           echo branch-name=${{ steps.vars.outputs.branch-name }}
@@ -31,8 +31,7 @@ jobs:
         id: create_pr
         uses: peter-evans/create-pull-request@v3
         with:
-          commit-message: revert
-          title: autorevert ${{ github.ref }}
+          title: Revert ${{ github.ref }}
           body: This is an auto-generated PR to revert \#${{github.event.inputs.pr_number}}.
           labels: autorevert
           branch: ${{ steps.vars.outputs.branch-name }}
