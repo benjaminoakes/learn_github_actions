@@ -1,5 +1,10 @@
 name: add_commits
-on: [workflow_dispatch]
+on:
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'PR number'
+        required: false
 jobs:
   add_commits:
     runs-on: ubuntu-latest
@@ -18,8 +23,6 @@ jobs:
           echo ::set-output name=files-changed-count::$(git status --porcelain=v1 2>/dev/null | wc -l)
       - name: Inspect vars
         run: |
-          echo github.head_ref=${{ github.ref }}
-          echo github.event.pull_request.number=${{github.event.pull_request.number}}
           echo branch-name=${{ steps.vars.outputs.branch-name }}
           echo files-changed-count=${{ steps.vars.outputs.files-changed-count }}
       - name: Create Pull Request
@@ -28,7 +31,7 @@ jobs:
         with:
           commit-message: autoformat fixes
           title: autoformat ${{ github.ref }}
-          body: This is an auto-generated PR with fixes for \#${{github.event.pull_request.number}} by autoformat.
+          body: This is an auto-generated PR with fixes for \#${{github.event.inputs.pr_number}} by autoformat.
           labels: autoformat
           branch: ${{ steps.vars.outputs.branch-name }}
       - name: Fail if files changed
