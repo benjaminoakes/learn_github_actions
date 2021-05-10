@@ -9,14 +9,6 @@ jobs:
       - uses: actions/checkout@v2
         with:
           ref: ${{ github.head_ref }}
-      - name: autoformat
-        id: autoformat
-        uses: peter-evans/autopep8@v1
-        with:
-          args: --exit-code --recursive --in-place --aggressive --aggressive .
-      - name: Report date
-        id: report
-        run: date > report.txt
       - name: Sort
         id: sort
         run: sort abc.txt > abc.txt.sorted; mv abc.txt.sorted abc.txt
@@ -39,7 +31,4 @@ jobs:
           branch: ${{ steps.vars.outputs.branch-name }}
       - name: Fail if files changed
         if: steps.vars.outputs.files-changed-count > 0
-        run: exit 1
-      - name: Fail if autoformat made changes
-        if: steps.autoformat.outputs.exit-code == 2
         run: exit 1
